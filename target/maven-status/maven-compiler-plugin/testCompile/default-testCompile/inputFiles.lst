@@ -1,3 +1,14 @@
 C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\AuthServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\integration\BaseIntegrationTest.java
 C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\TransactionServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\domain\entity\RecurringPaymentFrequencyTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\AlertServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\integration\TransactionIntegrationTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\integration\BudgetAndAnalyticsIntegrationTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\integration\AccountIntegrationTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\security\JwtServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\scheduler\FinanceSchedulerTest.java
 C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\integration\AuthIntegrationTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\BudgetServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\AccountServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\AnalyticsServiceTest.java

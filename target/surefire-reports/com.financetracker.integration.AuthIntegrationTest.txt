@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.financetracker.integration.AuthIntegrationTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.709 s <<< FAILURE! -- in com.financetracker.integration.AuthIntegrationTest
-com.financetracker.integration.AuthIntegrationTest -- Time elapsed: 0.709 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.662 s <<< FAILURE! -- in com.financetracker.integration.AuthIntegrationTest
+com.financetracker.integration.AuthIntegrationTest -- Time elapsed: 0.662 s <<< ERROR!
 java.lang.IllegalStateException: Could not find a valid Docker environment. Please see logs and check configuration
 	at org.testcontainers.dockerclient.DockerClientProviderStrategy.lambda$getFirstValidStrategy$7(DockerClientProviderStrategy.java:277)
 	at java.base/java.util.Optional.orElseThrow(Optional.java:403)

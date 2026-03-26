@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.financetracker.service.TransactionServiceTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.121 s -- in com.financetracker.service.TransactionServiceTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.159 s -- in com.financetracker.service.TransactionServiceTest
