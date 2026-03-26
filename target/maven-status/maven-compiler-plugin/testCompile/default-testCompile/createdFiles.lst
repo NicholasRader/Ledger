@@ -1,0 +1,3 @@
+com\financetracker\service\AuthServiceTest.class
+com\financetracker\service\TransactionServiceTest.class
+com\financetracker\integration\AuthIntegrationTest.class
