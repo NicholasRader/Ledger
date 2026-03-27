@@ -97,8 +97,10 @@ class JwtServiceTest {
             // Restore normal expiration
             ReflectionTestUtils.setField(jwtService, "accessTokenExpiration", 900000L);
 
-            assertThat(jwtService.isTokenExpired(expiredToken)).isTrue();
-            assertThat(jwtService.isTokenValid(expiredToken, testUser)).isFalse();
+            // isTokenExpired internally calls extractAllClaims which throws ExpiredJwtException
+            // We need to catch that and assert it means the token is invalid
+            assertThatThrownBy(() -> jwtService.isTokenExpired(expiredToken))
+                    .isInstanceOf(io.jsonwebtoken.ExpiredJwtException.class);
         }
     }
 

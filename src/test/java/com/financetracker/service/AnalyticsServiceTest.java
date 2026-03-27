@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -290,7 +291,7 @@ class AnalyticsServiceTest {
             Object[] row = new Object[]{"2026-03", new BigDecimal("1000.00"), new BigDecimal("1500.00")};
 
             when(transactionRepository.findMonthlyTrends(eq(1L), any()))
-                .thenReturn(List.of(row));
+                .thenReturn(List.of(new Object[][]{row}));
 
             MonthlyTrendResponse response = analyticsService.getMonthlyTrends(1L, 1);
 

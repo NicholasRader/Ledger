@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
-Test set: com.financetracker.integration.AuthIntegrationTest
+Test set: com.financetracker.integration.AccountIntegrationTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.010 s <<< FAILURE! -- in com.financetracker.integration.AuthIntegrationTest
-com.financetracker.integration.AuthIntegrationTest -- Time elapsed: 0.010 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.330 s <<< FAILURE! -- in com.financetracker.integration.AccountIntegrationTest
+com.financetracker.integration.AccountIntegrationTest -- Time elapsed: 0.330 s <<< ERROR!
 java.util.ServiceConfigurationError: org.testcontainers.dockerclient.DockerClientProviderStrategy: Provider org.testcontainers.dockerclient.EnvironmentAndSystemPropertyClientProviderStrategy could not be instantiated
 	at java.base/java.util.ServiceLoader.fail(ServiceLoader.java:586)
 	at java.base/java.util.ServiceLoader$ProviderImpl.newInstance(ServiceLoader.java:813)
