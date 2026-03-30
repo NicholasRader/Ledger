@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional
 @DisplayName("Transaction Controller Integration Tests")
 class TransactionIntegrationTest extends BaseIntegrationTest {
 
@@ -25,15 +25,16 @@ class TransactionIntegrationTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        token = registerAndGetToken("txn@test.com", "Transaction User");
+        String email = "txn-" + UUID.randomUUID() + "@test.com";
+        token = registerAndGetToken(email, "Transaction User");
 
         String accountResponse = mockMvc.perform(post("/api/accounts")
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(
-                    new CreateAccountRequest("Checking", AccountType.CHECKING,
-                        new BigDecimal("1000.00"), "USD"))))
-            .andReturn().getResponse().getContentAsString();
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                new CreateAccountRequest("Checking", AccountType.CHECKING,
+                                        new BigDecimal("1000.00"), "USD"))))
+                .andReturn().getResponse().getContentAsString();
 
         accountId = objectMapper.readTree(accountResponse).get("id").asLong();
     }
@@ -42,43 +43,43 @@ class TransactionIntegrationTest extends BaseIntegrationTest {
     @DisplayName("POST /api/transactions - EXPENSE should reduce account balance")
     void createExpense_reducesBalance() throws Exception {
         CreateTransactionRequest request = new CreateTransactionRequest(
-            accountId, 1L, new BigDecimal("150.00"), "USD",
-            TransactionType.EXPENSE, "Groceries", "Whole Foods", LocalDate.now()
+                accountId, 1L, new BigDecimal("150.00"), "USD",
+                TransactionType.EXPENSE, "Groceries", "Whole Foods", LocalDate.now()
         );
 
         mockMvc.perform(post("/api/transactions")
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.amount").value(150.00))
-            .andExpect(jsonPath("$.type").value("EXPENSE"))
-            .andExpect(jsonPath("$.merchant").value("Whole Foods"));
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.amount").value(150.00))
+                .andExpect(jsonPath("$.type").value("EXPENSE"))
+                .andExpect(jsonPath("$.merchant").value("Whole Foods"));
 
         // Verify balance reduced from 1000 to 850
         mockMvc.perform(get("/api/accounts/" + accountId)
-                .header("Authorization", token))
-            .andExpect(jsonPath("$.balance").value(850.00));
+                        .header("Authorization", token))
+                .andExpect(jsonPath("$.balance").value(850.00));
     }
 
     @Test
     @DisplayName("POST /api/transactions - INCOME should increase account balance")
     void createIncome_increasesBalance() throws Exception {
         CreateTransactionRequest request = new CreateTransactionRequest(
-            accountId, 8L, new BigDecimal("2000.00"), "USD",
-            TransactionType.INCOME, "Salary", "Employer", LocalDate.now()
+                accountId, 8L, new BigDecimal("2000.00"), "USD",
+                TransactionType.INCOME, "Salary", "Employer", LocalDate.now()
         );
 
         mockMvc.perform(post("/api/transactions")
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isCreated());
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated());
 
         // Verify balance increased from 1000 to 3000
         mockMvc.perform(get("/api/accounts/" + accountId)
-                .header("Authorization", token))
-            .andExpect(jsonPath("$.balance").value(3000.00));
+                        .header("Authorization", token))
+                .andExpect(jsonPath("$.balance").value(3000.00));
     }
 
     @Test
@@ -87,22 +88,22 @@ class TransactionIntegrationTest extends BaseIntegrationTest {
         // Create 3 transactions
         for (int i = 1; i <= 3; i++) {
             CreateTransactionRequest req = new CreateTransactionRequest(
-                accountId, 1L, new BigDecimal(i * 10), "USD",
-                TransactionType.EXPENSE, "Expense " + i, "Merchant", LocalDate.now()
+                    accountId, 1L, new BigDecimal(i * 10), "USD",
+                    TransactionType.EXPENSE, "Expense " + i, "Merchant", LocalDate.now()
             );
             mockMvc.perform(post("/api/transactions")
-                    .header("Authorization", token)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isCreated());
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(req)))
+                    .andExpect(status().isCreated());
         }
 
         mockMvc.perform(get("/api/transactions?page=0&size=10")
-                .header("Authorization", token))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content.length()").value(3))
-            .andExpect(jsonPath("$.totalElements").value(3))
-            .andExpect(jsonPath("$.page").value(0));
+                        .header("Authorization", token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(3))
+                .andExpect(jsonPath("$.totalElements").value(3))
+                .andExpect(jsonPath("$.page").value(0));
     }
 
     @Test
@@ -110,46 +111,46 @@ class TransactionIntegrationTest extends BaseIntegrationTest {
     void deleteTransaction_restoresBalance() throws Exception {
         // Create expense of $200
         CreateTransactionRequest request = new CreateTransactionRequest(
-            accountId, 1L, new BigDecimal("200.00"), "USD",
-            TransactionType.EXPENSE, "Test", "Merchant", LocalDate.now()
+                accountId, 1L, new BigDecimal("200.00"), "USD",
+                TransactionType.EXPENSE, "Test", "Merchant", LocalDate.now()
         );
 
         String txnResponse = mockMvc.perform(post("/api/transactions")
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getContentAsString();
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
 
         Long txnId = objectMapper.readTree(txnResponse).get("id").asLong();
 
         // Balance should be 800 now
         mockMvc.perform(get("/api/accounts/" + accountId).header("Authorization", token))
-            .andExpect(jsonPath("$.balance").value(800.00));
+                .andExpect(jsonPath("$.balance").value(800.00));
 
         // Delete the transaction
         mockMvc.perform(delete("/api/transactions/" + txnId)
-                .header("Authorization", token))
-            .andExpect(status().isNoContent());
+                        .header("Authorization", token))
+                .andExpect(status().isNoContent());
 
         // Balance should be restored to 1000
         mockMvc.perform(get("/api/accounts/" + accountId).header("Authorization", token))
-            .andExpect(jsonPath("$.balance").value(1000.00));
+                .andExpect(jsonPath("$.balance").value(1000.00));
     }
 
     @Test
     @DisplayName("POST /api/transactions - should return 400 for negative amount")
     void createTransaction_negativeAmount_returns400() throws Exception {
         CreateTransactionRequest request = new CreateTransactionRequest(
-            accountId, 1L, new BigDecimal("-50.00"), "USD",
-            TransactionType.EXPENSE, "Bad", "Merchant", LocalDate.now()
+                accountId, 1L, new BigDecimal("-50.00"), "USD",
+                TransactionType.EXPENSE, "Bad", "Merchant", LocalDate.now()
         );
 
         mockMvc.perform(post("/api/transactions")
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isBadRequest());
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -159,21 +160,21 @@ class TransactionIntegrationTest extends BaseIntegrationTest {
 
         // Create transaction as user 1
         CreateTransactionRequest request = new CreateTransactionRequest(
-            accountId, 1L, new BigDecimal("50.00"), "USD",
-            TransactionType.EXPENSE, "Private", "Merchant", LocalDate.now()
+                accountId, 1L, new BigDecimal("50.00"), "USD",
+                TransactionType.EXPENSE, "Private", "Merchant", LocalDate.now()
         );
 
         String txnResponse = mockMvc.perform(post("/api/transactions")
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-            .andReturn().getResponse().getContentAsString();
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andReturn().getResponse().getContentAsString();
 
         Long txnId = objectMapper.readTree(txnResponse).get("id").asLong();
 
         // Other user tries to access it
         mockMvc.perform(get("/api/transactions/" + txnId)
-                .header("Authorization", otherToken))
-            .andExpect(status().isNotFound());
+                        .header("Authorization", otherToken))
+                .andExpect(status().isNotFound());
     }
 }

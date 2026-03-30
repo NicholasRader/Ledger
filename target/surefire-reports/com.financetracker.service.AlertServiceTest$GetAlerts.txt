@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.financetracker.service.AlertServiceTest$GetAlerts
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.financetracker.service.AlertServiceTest$GetAlerts
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.financetracker.service.AlertServiceTest$GetAlerts

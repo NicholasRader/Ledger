@@ -1,53 +1,21 @@
 package com.financetracker.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.financetracker.dto.auth.AuthDtos.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Full integration test using a real PostgreSQL container via Testcontainers.
- * Flyway migrations are applied automatically on startup.
+ * Auth endpoint integration tests.
+ * Extends BaseIntegrationTest to share the singleton Testcontainer and
+ * Spring context with all other integration tests.
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
-@Testcontainers
-@ActiveProfiles("test")
 @DisplayName("Auth Integration Tests")
-class AuthIntegrationTest {
-
-    @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine")
-        .withDatabaseName("testdb")
-        .withUsername("testuser")
-        .withPassword("testpass");
-
-    // Wire Testcontainers datasource into Spring context
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
-
-    @Autowired MockMvc mockMvc;
-    @Autowired ObjectMapper objectMapper;
+class AuthIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @DisplayName("POST /api/auth/register - should register user and return tokens")
@@ -55,13 +23,13 @@ class AuthIntegrationTest {
         RegisterRequest request = new RegisterRequest("John Doe", "john@test.com", "password123");
 
         MvcResult result = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.accessToken").isNotEmpty())
-            .andExpect(jsonPath("$.refreshToken").isNotEmpty())
-            .andExpect(jsonPath("$.user.email").value("john@test.com"))
-            .andReturn();
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.accessToken").isNotEmpty())
+                .andExpect(jsonPath("$.refreshToken").isNotEmpty())
+                .andExpect(jsonPath("$.user.email").value("john@test.com"))
+                .andReturn();
 
         String body = result.getResponse().getContentAsString();
         AuthResponse response = objectMapper.readValue(body, AuthResponse.class);
@@ -77,15 +45,15 @@ class AuthIntegrationTest {
 
         // First registration
         mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isCreated());
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated());
 
         // Duplicate
         mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isConflict());
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isConflict());
     }
 
     @Test
@@ -94,9 +62,9 @@ class AuthIntegrationTest {
         LoginRequest request = new LoginRequest("nonexistent@test.com", "wrongpass");
 
         mockMvc.perform(post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isUnauthorized());
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -108,9 +76,9 @@ class AuthIntegrationTest {
             """;
 
         mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(badPayload))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.fieldErrors").exists());
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                        .content(badPayload))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.fieldErrors").exists());
     }
 }
