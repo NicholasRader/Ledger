@@ -1,6 +1,6 @@
 spring:
   application:
-    name: finance-tracker
+    name: ledger
 
   datasource:
     url: jdbc:postgresql://localhost:5432/financedb
@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate         # Flyway owns the schema — JPA only validates
+      ddl-auto: validate         # Flyway owns the schema - JPA only validates
     show-sql: false
     properties:
       hibernate:
@@ -33,7 +33,7 @@ spring:
     redis:
       time-to-live: 300000       # 5 minutes default TTL
 
-# JWT config — override secret via env var in production
+# JWT config - override secret via env var in production
 app:
   jwt:
     secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
@@ -65,5 +65,5 @@ springdoc:
 
 logging:
   level:
-    com.financetracker: DEBUG
+    com.ledger: DEBUG
     org.springframework.security: INFO

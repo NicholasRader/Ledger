@@ -1,38 +1,78 @@
-# Autonomous Financial Intelligence Platform
+# Ledger
 
-A production-grade REST API for personal finance management, built with Java 21 and Spring Boot 3. Features JWT authentication with refresh token rotation, a PostgreSQL-backed analytics engine, Redis caching, and an intelligent scheduling system for budget breach detection and anomaly alerts.
+A personal finance API for tracking accounts, transactions, and budgets with built-in analytics and intelligent alerting. Designed as a production-ready Spring Boot service with JWT auth, PostgreSQL-backed data modeling, Redis caching, and scheduled financial insights.
 
----
+## Stack
 
-## Tech Stack
+- **Spring Boot 3 (Java 21)** - REST API with layered architecture  
+- **Spring Security + JWT** - Access tokens + refresh token rotation  
+- **PostgreSQL + JPA** - Relational data modeling and persistence  
+- **Flyway** - Versioned database migrations  
+- **Redis** - Caching with TTL + write invalidation  
+- **Spring Scheduler** - Background jobs for alerts and anomaly detection  
+- **JUnit 5 + Testcontainers** - Unit + integration testing  
+- **Docker + Docker Compose** - Local development and deployment 
 
-| Layer | Technology |
-|---|---|
-| Language | Java 21 |
-| Framework | Spring Boot 3.2 |
-| Auth | Spring Security + JJWT (JWT + Refresh Token Rotation) |
-| Database | PostgreSQL 16 + Spring Data JPA |
-| Migrations | Flyway |
-| Caching | Redis + Spring Cache |
-| Scheduling | Spring `@Scheduled` |
-| Testing | JUnit 5, Mockito, Testcontainers |
-| Docs | Springdoc OpenAPI / Swagger UI |
-| DevOps | Docker + Docker Compose |
+## Endpoints
 
----
+### Auth
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/auth/register` | Register user |
+| POST | `/api/auth/login` | Login, receive tokens |
+| POST | `/api/auth/refresh` | Rotate refresh token |
+| POST | `/api/auth/logout` | Revoke sessions |
+
+### Accounts
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/accounts` | List accounts |
+| POST | `/api/accounts` | Create account |
+| PUT | `/api/accounts/{id}` | Update account |
+| DELETE | `/api/accounts/{id}` | Delete account |
+
+### Transactions
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/transactions` | Paginated transactions |
+| POST | `/api/transactions` | Create transaction |
+| PUT | `/api/transactions/{id}` | Update transaction |
+| DELETE | `/api/transactions/{id}` | Delete transaction |
+
+### Budgets
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/budgets` | Budgets with spend tracking |
+| POST | `/api/budgets` | Create budget |
+| PUT | `/api/budgets/{id}` | Update budget |
+| DELETE | `/api/budgets/{id}` | Delete budget |
+
+### Analytics
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/analytics/cashflow` | Income vs expenses |
+| GET | `/api/analytics/networth` | Net worth |
+| GET | `/api/analytics/burnrate` | Spend rate |
+| GET | `/api/analytics/trends` | Monthly trends |
+| GET | `/api/analytics/breakdown` | Category breakdown |
+
+### Alerts
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/alerts` | Fetch alerts |
+| PATCH | `/api/alerts/{id}/read` | Mark as read |
+| PATCH | `/api/alerts/read-all` | Mark all as read |
 
 ## Features
 
-- **Secure Auth** — JWT access tokens (15 min) + refresh token rotation (7 days) with revocation on logout
-- **Multi-Account Management** — Checking, savings, credit, and investment accounts with real-time balance tracking
-- **Transaction Engine** — Full CRUD with automatic balance adjustment on create/update/delete
-- **Envelope Budgeting** — Per-category monthly budgets with real-time spend tracking
-- **Recurring Payments** — Subscription tracking with automatic next-due-date advancement
-- **Analytics API** — Cash flow, net worth, burn rate, monthly trends, and spending breakdown
-- **Intelligent Alerting** — Daily scheduled jobs for budget breach detection (80%/100% thresholds) and statistical anomaly detection (z-score > 2σ)
-- **Redis Caching** — Cache invalidation strategy on write operations with per-cache TTL configuration
-
----
+- **Secure Auth** - JWT access tokens (15 min) + refresh token rotation (7 days) with revocation on logout
+- **Multi-Account Management** - Checking, savings, credit, and investment accounts with real-time balance tracking
+- **Transaction Engine** - Full CRUD with automatic balance adjustment on create/update/delete
+- **Envelope Budgeting** - Per-category monthly budgets with real-time spend tracking
+- **Recurring Payments** - Subscription tracking with automatic next-due-date advancement
+- **Analytics API** - Cash flow, net worth, burn rate, monthly trends, and spending breakdown
+- **Intelligent Alerting** - Daily scheduled jobs for budget breach detection (80%/100% thresholds) and statistical anomaly detection (z-score > 2σ)
+- **Redis Caching** - Cache invalidation strategy on write operations with per-cache TTL configuration
 
 ## Getting Started
 
@@ -45,8 +85,8 @@ A production-grade REST API for personal finance management, built with Java 21 
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/finance-tracker.git
-cd finance-tracker
+git clone https://github.com/NicholasRader/Ledger.git
+cd Ledger
 
 # Start PostgreSQL + Redis
 docker-compose up postgres redis -d
@@ -67,60 +107,6 @@ Once running, open Swagger UI at:
 http://localhost:8080/swagger-ui.html
 ```
 
----
-
-## API Overview
-
-### Auth
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register new user |
-| POST | `/api/auth/login` | Login, receive token pair |
-| POST | `/api/auth/refresh` | Rotate refresh token |
-| POST | `/api/auth/logout` | Revoke all refresh tokens |
-
-### Accounts
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/accounts` | List all accounts |
-| POST | `/api/accounts` | Create account |
-| PUT | `/api/accounts/{id}` | Update account |
-| DELETE | `/api/accounts/{id}` | Delete account |
-
-### Transactions
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/transactions?page=0&size=20` | Paginated transaction history |
-| POST | `/api/transactions` | Record new transaction |
-| PUT | `/api/transactions/{id}` | Update transaction |
-| DELETE | `/api/transactions/{id}` | Delete transaction |
-
-### Budgets
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/budgets?month=2025-03-01` | Budgets with real-time spend |
-| POST | `/api/budgets` | Create budget |
-| PUT | `/api/budgets/{id}` | Update limit |
-| DELETE | `/api/budgets/{id}` | Delete budget |
-
-### Analytics
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/analytics/cashflow?month=2025-03` | Income vs expenses |
-| GET | `/api/analytics/networth` | Total net worth |
-| GET | `/api/analytics/burnrate?categoryId=1&start=...&end=...` | Daily spend rate |
-| GET | `/api/analytics/trends?months=6` | Month-over-month trends |
-| GET | `/api/analytics/breakdown?start=...&end=...` | Spending by category |
-
-### Alerts
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/alerts?unreadOnly=true` | Get alerts |
-| PATCH | `/api/alerts/{id}/read` | Mark one as read |
-| PATCH | `/api/alerts/read-all` | Mark all as read |
-
----
-
 ## Running Tests
 
 ```bash
@@ -131,12 +117,10 @@ http://localhost:8080/swagger-ui.html
 ./mvnw verify
 ```
 
----
-
 ## Project Structure
 
 ```
-src/main/java/com/financetracker/
+src/main/java/com/ledger/
 ├── config/          # SecurityConfig, CacheConfig, OpenApiConfig
 ├── controller/      # REST controllers
 ├── domain/
@@ -148,8 +132,6 @@ src/main/java/com/financetracker/
 ├── security/        # JwtService, JwtAuthenticationFilter
 └── service/         # Business logic layer
 ```
-
----
 
 ## Environment Variables
 

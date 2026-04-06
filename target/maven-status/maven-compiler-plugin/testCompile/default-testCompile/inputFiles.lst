@@ -1,14 +1,14 @@
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\AuthServiceTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\integration\BaseIntegrationTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\TransactionServiceTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\domain\entity\RecurringPaymentFrequencyTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\AlertServiceTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\integration\TransactionIntegrationTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\integration\BudgetAndAnalyticsIntegrationTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\integration\AccountIntegrationTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\security\JwtServiceTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\scheduler\FinanceSchedulerTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\integration\AuthIntegrationTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\BudgetServiceTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\AccountServiceTest.java
-C:\Users\darth\OneDrive\Documents\GitHub\Finance Tracker\src\test\java\com\financetracker\service\AnalyticsServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\integration\AccountIntegrationTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\integration\BaseIntegrationTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\service\AlertServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\integration\TransactionIntegrationTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\security\JwtServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\service\AnalyticsServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\integration\AuthIntegrationTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\service\TransactionServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\scheduler\FinanceSchedulerTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\service\BudgetServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\service\AccountServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\service\AuthServiceTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\domain\entity\RecurringPaymentFrequencyTest.java
+C:\Users\darth\OneDrive\Documents\GitHub\Ledger\src\test\java\com\ledger\integration\BudgetAndAnalyticsIntegrationTest.java

@@ -11,11 +11,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.financetracker</groupId>
-    <artifactId>finance-tracker</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>Finance Tracker</name>
-    <description>Autonomous Financial Intelligence Platform</description>
+    <groupId>com.ledger</groupId>
+    <artifactId>ledger</artifactId>
+    <version>1.0.0</version>
+    <name>Ledger</name>
+    <description>Autonomous Financial Intelligence Platform API</description>
 
     <properties>
         <java.version>21</java.version>
