@@ -1,5 +1,6 @@
 package com.ledger.config;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -37,18 +38,7 @@ public class CacheConfig {
     @Bean
     @ConditionalOnProperty(name = "spring.cache.type", havingValue = "redis")
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        ObjectMapper objectMapper = JsonMapper.builder()
-                .addModule(new JavaTimeModule())
-                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                .activateDefaultTyping(
-                        BasicPolymorphicTypeValidator.builder()
-                                .allowIfSubType(Object.class).build(),
-                        ObjectMapper.DefaultTyping.NON_FINAL
-                )
-                .build();
-
-        GenericJackson2JsonRedisSerializer jsonSerializer =
-                new GenericJackson2JsonRedisSerializer(objectMapper);
+        GenericJackson2JsonRedisSerializer jsonSerializer = new GenericJackson2JsonRedisSerializer();
 
         RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(5))
